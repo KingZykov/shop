@@ -1,0 +1,195 @@
+/* Store Section */
+.store {
+    padding: 60px 20px;
+    background-color: rgb(56, 20, 90);
+    margin-top: 50px;
+}
+
+.store-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.game-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+}
+
+.game-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.game-card h3 {
+    padding: 15px 15px 0;
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.game-description {
+    padding: 0 15px;
+    color: #666;
+    font-size: 0.9rem;
+    min-height: 60px;
+}
+
+.game-price {
+    padding: 10px 15px;
+    font-weight: bold;
+    color: var(--accent);
+    font-size: 1.2rem;
+}
+
+.add-to-cart {
+    display: block;
+    width: calc(100% - 30px);
+    margin: 15px;
+    padding: 10px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.add-to-cart:hover {
+    background: #3a3a8a;
+}
+
+/* Cart Button */
+.cart-button-container {
+    margin-left: 20px;
+}
+
+#cartBtn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#cartCounter {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff4757;
+    color: white;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+
+/* Cart Modal */
+.cart-modal {
+    max-width: 600px;
+}
+
+.cart-items {
+    max-height: 400px;
+    overflow-y: auto;
+    margin: 20px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-item-name {
+    flex: 2;
+}
+
+.cart-item-price {
+    flex: 1;
+    text-align: right;
+    font-weight: bold;
+}
+
+.cart-item-remove {
+    margin-left: 15px;
+    color: #ff4757;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+}
+
+.empty-cart-message {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+}
+
+.cart-total {
+    text-align: right;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.cart-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#clearCart {
+    background: #f5f5f5;
+}
+
+#clearCart:hover {
+    background: #e0e0e0;
+}
+
+.checkout {
+    background: var(--accent);
+    color: white;
+}
+
+.checkout:hover {
+    background: #3a3a8a;
+}
+
+#gametitle {
+    color: #666;
+}

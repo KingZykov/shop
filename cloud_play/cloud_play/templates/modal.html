@@ -1,0 +1,607 @@
+    {% load static %}
+
+        <!-- Login Modal -->
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Вход в аккаунт</h2>
+                <form id="loginForm" method="POST" action="/login/">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" name="email" id="loginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Пароль</label>
+                        <input type="password" name="password" id="loginPassword" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit">Войти</button>
+                        <a href="#" style="color: var(--accent);">Забыли пароль?</a>
+                    </div>
+                    <div class="form-footer">
+                        Нет аккаунта? <a href="#" id="switchToRegister">Зарегистрироваться</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Register Modal -->
+        <div id="registerModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Регистрация</h2>
+                <form id="registerForm"  method="POST" action="/register/">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="registerName">Имя</label>
+                        <input type="text" name="name" id="registerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Email</label>
+                        <input type="email" name="email" id="registerEmail" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="registerPhone">Телефон</label>
+                      <input type="text" name="phone" id="registerPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Пароль</label>
+                        <input type="password" name="password" id="registerPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerConfirmPassword">Подтвердите пароль</label>
+                        <input type="password" name="password_confirm" id="registerConfirmPassword" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit">Зарегистрироваться</button>
+                    </div>
+                    <div class="form-footer">
+                        Уже есть аккаунт? <a href="#" id="switchToLogin">Войти</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- LK Modal -->
+        <div id="profileModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span id="closeProfile" class="close">&times;</span>
+                <h2>Личный кабинет</h2>
+                <form id="profileForm" method="post" action="{% url 'profile' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Имя:</label>
+                        <input type="text" id="name" name="name" value="{{ user.name }}"><br>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Телефон:</label>
+                        <input type="text" id="phone" name="phone" value="{{ user.phone }}"><br>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" value="{{ user.login }}"><br>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit">Сохранить изменения</button>
+                    </div>
+                </form>
+            </div>
+        </div>   
+        
+        
+
+        <!-- Модальное окно платежного сервиса -->
+        <div id="paymentModal" class="modal">
+            <div class="modal-content payment-modal">
+                <span class="close">&times;</span>
+                <div class="payment-header">
+                    <img src="https://yookassa.ru/favicon.ico" alt="UKassa Logo" class="payment-logo">
+                    <h2>ЮKassa - Безопасные платежи</h2>
+                </div>
+                
+                <div class="payment-body">
+                    <div class="payment-summary">
+                        <h3>Оплата подписки CloudPlay</h3>
+                        <div class="plan-info">
+                            <p>Тариф: <span id="paymentPlanName">Продвинутый</span></p>
+                            <p>Сумма: <span id="paymentAmount">799.99</span> руб.</p>
+                        </div>
+                    </div>
+                    
+                    <form id="paymentForm">
+                        <div class="form-group-payment">
+                            <label>Номер карты</label>
+                            <div class="card-input">
+                                <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" class="card-number">
+                                <div class="card-icons">
+                                    <i class="fab fa-cc-visa"></i>
+                                    <i class="fab fa-cc-mastercard"></i>
+                                    <i class="fab fa-cc-mir"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group-payment">
+                                <label>Срок действия</label>
+                                <input type="text" placeholder="ММ/ГГ" maxlength="5" class="card-expiry">
+                            </div>
+                            <div class="form-group-payment">
+                                <label>CVV/CVC</label>
+                                <input type="password" placeholder="•••" maxlength="3" class="card-cvv">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group-payment">
+                            <label>Email для чека</label>
+                            <input type="email" placeholder="your@email.com" class="payment-email">
+                        </div>
+                        
+                        <button type="submit" class="payment-submit">Оплатить 799.99 руб.</button>
+                    </form>
+                    
+                    <div class="payment-security">
+                        <i class="fas fa-lock"></i>
+                        <span>Ваши данные защищены</span>
+                    </div>
+                </div>
+                
+                <div class="payment-footer">
+                    <p>© 2025 YooKassa. Все права защищены.</p>
+                </div>
+            </div>
+        </div>
+
+
+            <!-- Cart Modal -->
+        <div id="cartModal" class="modal">
+            <div class="modal-content cart-modal">
+                <span class="close">&times;</span>
+                <h2>Ваша корзина</h2>
+                <div class="cart-items" id="cartItems">
+                    <!-- Товары будут добавляться сюда динамически -->
+                    <p class="empty-cart-message">Ваша корзина пуста</p>
+                </div>
+                <div class="cart-total">
+                    Итого: <span id="cartTotal">0.00</span> руб.
+                </div>
+                <div class="cart-actions">
+                    <button id="clearCart" class="cart-button">Очистить корзину</button>
+                   {% comment %}  <button id="checkoutCart" class="cart-button checkout">Оформить заказ</button> {% endcomment %}
+                   <button id="checkoutOrderBtn" class="cart-button checkout">Оформить заказ</button>
+                   
+                </div>
+            </div>
+        </div>
+
+
+
+<!-- Модальное окно платежного сервиса (будет открыто после нажатия кнопки) -->
+<div id="paymentModal" class="modal" style="display: none;">  <!-- по умолчанию скрыто -->
+    <div class="modal-content payment-modal">
+        <span class="close">&times;</span>
+        <div class="payment-header">
+            <img src="https://yookassa.ru/favicon.ico" alt="UKassa Logo" class="payment-logo">
+            <h2>ЮKassa - Безопасные платежи</h2>
+        </div>
+
+        <div class="payment-body">
+            <div class="payment-summary">
+                <h3>Оплата подписки CloudPlay</h3>
+                <div class="plan-info">
+                    <p>Тариф: <span id="paymentPlanName">Продвинутый</span></p>
+                    <p>Сумма: <span id="paymentAmount">799.99</span> руб.</p>
+                </div>
+            </div>
+
+            <!-- Форма оплаты -->
+            <form id="paymentForm">
+                <div class="form-group-payment">
+                    <label>Номер карты</label>
+                    <div class="card-input">
+                        <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" class="card-number">
+                        <div class="card-icons">
+                            <i class="fab fa-cc-visa"></i>
+                            <i class="fab fa-cc-mastercard"></i>
+                            <i class="fab fa-cc-mir"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group-payment">
+                        <label>Срок действия</label>
+                        <input type="text" placeholder="ММ/ГГ" maxlength="5" class="card-expiry">
+                    </div>
+                    <div class="form-group-payment">
+                        <label>CVV/CVC</label>
+                        <input type="password" placeholder="•••" maxlength="3" class="card-cvv">
+                    </div>
+                </div>
+
+                <div class="form-group-payment">
+                    <label>Email для чека</label>
+                    <input type="email" placeholder="your@email.com" class="payment-email">
+                </div>
+
+                <button type="submit" class="payment-submit">Оплатить 799.99 руб.</button>
+            </form>
+
+            <div class="payment-security">
+                <i class="fas fa-lock"></i>
+                <span>Ваши данные защищены</span>
+            </div>
+        </div>
+
+        <div class="payment-footer">
+            <p>© 2025 ЮKassa. Все права защищены.</p>
+        </div>
+    </div>
+</div>
+
+
+    
+        <script>
+            // Modal functionality
+            const loginModal = document.getElementById("loginModal");
+            const registerModal = document.getElementById("registerModal");
+            const loginBtn = document.getElementById("loginBtn");
+            const registerBtn = document.getElementById("registerBtn");
+            const switchToRegister = document.getElementById("switchToRegister");
+            const switchToLogin = document.getElementById("switchToLogin");
+            const closeButtons = document.getElementsByClassName("close");
+            const ctaButton = document.querySelector('.cta-button');
+            
+            // Обработчики для кнопок
+            if (loginBtn) {
+                loginBtn.addEventListener('click', function() {
+                    loginModal.style.display = "block";
+                });
+            }
+            
+            if (registerBtn) {
+                registerBtn.addEventListener('click', function() {
+                    registerModal.style.display = "block";
+                });
+            }
+            
+            if (ctaButton) {
+                ctaButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    loginModal.style.display = "block";
+                });
+            }
+            
+            // Переключение между модальными окнами
+            if (switchToRegister) {
+                switchToRegister.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    loginModal.style.display = "none";
+                    registerModal.style.display = "block";
+                });
+            }
+            
+            if (switchToLogin) {
+                switchToLogin.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    registerModal.style.display = "none";
+                    loginModal.style.display = "block";
+                });
+            }
+            
+            // Закрытие модальных окон
+            for (let i = 0; i < closeButtons.length; i++) {
+                closeButtons[i].addEventListener('click', function() {
+                    loginModal.style.display = "none";
+                    registerModal.style.display = "none";
+                });
+            }
+            
+
+
+            document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('profileModal');
+            const btn = document.getElementById('profileBtn');
+            const closeBtn = document.getElementById('closeProfile');
+
+            // Показ кнопки "Личный кабинет" если авторизован
+            {% if user.is_authenticated %}
+                btn.style.display = 'inline-block';
+            {% endif %}
+
+            btn.addEventListener('click', () => {
+                modal.style.display = 'block';
+            });
+
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            });
+            
+
+
+
+            // Обработчики для платежной системы
+            const paymentModal = document.getElementById("paymentModal");
+            const paymentButtons = document.querySelectorAll(".pricing-button, .cta-button");
+            const closePayment = paymentModal.querySelector(".close");
+
+            // Открытие платежного окна
+            paymentButtons.forEach(button => {
+                button.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    
+                    
+                    // Блокируем прокрутку страницы
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Получаем информацию о тарифе
+                    const planCard = this.closest('.pricing-card');
+                    if (planCard) {
+                        const planName = planCard.querySelector('h3').textContent;
+                        const planPrice = planCard.querySelector('.price').textContent.split(' ')[0];
+                        
+                        document.getElementById('paymentPlanName').textContent = planName;
+                        document.getElementById('paymentAmount').textContent = planPrice;
+                        document.querySelector('.payment-submit').textContent = `Оплатить ${planPrice} руб.`;
+                    }
+                    
+                    paymentModal.style.display = "block";
+                });
+            });
+
+            // Закрытие платежного окна
+            closePayment.onclick = function() {
+                document.body.style.overflow = ''; // Восстанавливаем прокрутку
+                paymentModal.style.display = "none";
+            }
+
+{% comment %}             // Закрытие при клике вне модального окна
+            window.addEventListener('click', function(event) {
+                if (event.target == paymentModal) {
+                    document.body.style.overflow = ''; // Восстанавливаем прокрутку
+                    paymentModal.style.display = "none";
+                }
+            }); {% endcomment %}
+
+            // Обработка формы оплаты
+            document.getElementById("paymentForm").addEventListener("submit", function(e) {
+                e.preventDefault();
+                
+                // Показываем индикатор загрузки
+                const submitButton = this.querySelector('button[type="submit"]');
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Обработка платежа...';
+                
+                // Имитация обработки платежа
+                setTimeout(function() {
+                    // Скрываем платежное окно
+                    paymentModal.style.display = "none";
+                    document.body.style.overflow = ''; // Восстанавливаем прокрутку
+                    
+                    // Показываем сообщение об успехе
+                    alert("Платеж успешно завершен! Спасибо за покупку.");
+                    
+                    // Восстанавливаем кнопку
+                    submitButton.disabled = false;
+                    submitButton.textContent = `Оплатить ${document.getElementById('paymentAmount').textContent} руб.`;
+                    
+                    // Очищаем форму
+                    document.getElementById("paymentForm").reset();
+                }, 2000);
+            }); 
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+        // 1) Формат номера карты
+        const cardInput = document.querySelector('.card-input input.card-number');
+        if (cardInput) {
+            cardInput.addEventListener('input', function() {
+            let digits = this.value.replace(/\D/g, '').slice(0, 16);
+            const chunks = digits.match(/.{1,4}/g);
+            this.value = chunks ? chunks.join(' ') : '';
+            });
+        }
+
+        // 2) Формат срока MM/YY
+        // Поле срока может не находиться внутри .card-input, поэтому ищем просто по классу
+        const expiryInput = document.querySelector('input.card-expiry');
+        if (expiryInput) {
+            expiryInput.setAttribute('maxlength', '5'); // гарантия, что не больше 5 символов (2 цифры + / + 2 цифры)
+            expiryInput.addEventListener('input', function() {
+            let digits = this.value.replace(/\D/g, '').slice(0, 4);
+            if (digits.length > 2) {
+                this.value = digits.slice(0, 2) + '/' + digits.slice(2);
+            } else {
+                this.value = digits;
+            }
+            });
+        }
+        });
+
+
+
+            
+            // Cart functionality
+            const cartBtn = document.getElementById("cartBtn");
+            const cartModal = document.getElementById("cartModal");
+            const cartItemsContainer = document.getElementById("cartItems");
+            const cartTotal = document.getElementById("cartTotal");
+            const cartCounter = document.getElementById("cartCounter");
+            const clearCartBtn = document.getElementById("clearCart");
+            const checkoutBtn = document.getElementById("checkoutOrderBtn");
+            const addToCartButtons = document.querySelectorAll(".add-to-cart");
+            
+
+            let cart = [];
+
+            // Initialize cart from localStorage
+            if (localStorage.getItem("cart")) {
+                cart = JSON.parse(localStorage.getItem("cart"));
+                updateCartCounter();
+            }
+
+            // Open cart modal
+            cartBtn.addEventListener("click", function() {
+                renderCartItems();
+                cartModal.style.display = "block";
+            });
+
+            // Close cart modal
+            cartModal.querySelector(".close").addEventListener("click", function() {
+                cartModal.style.display = "none";
+            });
+
+            // Add to cart
+            addToCartButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    const id = this.getAttribute("data-id");
+                    const name = this.getAttribute("data-name");
+                    const price = parseFloat(this.getAttribute("data-price"));
+                    
+                    // Check if item already in cart
+                    const existingItem = cart.find(item => item.id === id);
+                    
+                    if (existingItem) {
+                        existingItem.quantity += 1;
+                    } else {
+                        cart.push({
+                            id,
+                            name,
+                            price,
+                            quantity: 1
+                        });
+                    }
+                    
+                    saveCart();
+                    updateCartCounter();
+                    renderCartItems();
+                    
+{% comment %}                     // Show notification
+                    alert(`"${name}" добавлен в корзину!`); {% endcomment %}
+                });
+            });
+
+            // Clear cart
+            clearCartBtn.addEventListener("click", function() {
+                cart = [];
+                saveCart();
+                renderCartItems();
+                updateCartCounter();
+            });
+
+            // Checkout
+            checkoutBtn.addEventListener("click", function() {
+                if (cart.length === 0) {
+                    alert("Ваша корзина пуста!");
+                    return;
+                }
+                
+{% comment %}                 // Here you would normally redirect to checkout page or show payment modal
+                alert("Заказ оформлен! Спасибо за покупку.");
+                cart = [];
+                saveCart();
+                renderCartItems();
+                updateCartCounter();
+                cartModal.style.display = "none"; {% endcomment %}
+
+
+                
+
+
+            });
+
+            // Render cart items
+            function renderCartItems() {
+                if (cart.length === 0) {
+                    cartItemsContainer.innerHTML = '<p class="empty-cart-message">Ваша корзина пуста</p>';
+                    cartTotal.textContent = "0.00";
+                    return;
+                }
+                
+                let itemsHTML = "";
+                let total = 0;
+                
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    
+                    itemsHTML += `
+                        <div class="cart-item">
+                            <div class="cart-item-name">${item.name} × ${item.quantity}</div>
+                            <div class="cart-item-price">${itemTotal.toFixed(2)} руб.</div>
+                            <button class="cart-item-remove" data-id="${item.id}">&times;</button>
+                        </div>
+                    `;
+                });
+                
+                cartItemsContainer.innerHTML = itemsHTML;
+                cartTotal.textContent = total.toFixed(2);
+                
+                // Add event listeners to remove buttons
+                document.querySelectorAll(".cart-item-remove").forEach(button => {
+                    button.addEventListener("click", function() {
+                        const id = this.getAttribute("data-id");
+                        cart = cart.filter(item => item.id !== id);
+                        saveCart();
+                        renderCartItems();
+                        updateCartCounter();
+                    });
+                });
+            }
+
+            // Update cart counter
+            function updateCartCounter() {
+                const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+                cartCounter.textContent = totalItems;
+            }
+
+            // Save cart to localStorage
+            function saveCart() {
+                localStorage.setItem("cart", JSON.stringify(cart));
+            }
+
+            // Close modal when clicking outside
+            window.addEventListener("click", function(event) {
+                if (event.target === cartModal) {
+                    cartModal.style.display = "none";
+                }
+            });
+
+            
+            // Новый обработчик для кнопки оформления заказа
+            const checkoutOrderBtn = document.getElementById("checkoutOrderBtn");
+            checkoutOrderBtn.addEventListener("click", function(e) {
+                e.preventDefault();
+
+                // Если корзина пуста, предупреждаем
+                if (cart.length === 0) {
+                    alert("Ваша корзина пуста!");
+                    return;
+                }
+
+                // Скрываем корзину
+                cartModal.style.display = 'none';
+
+                // Блокируем прокрутку страницы
+                document.body.style.overflow = 'hidden';
+
+                // Подставляем сумму заказа в форму оплаты
+                const totalPrice = document.getElementById('cartTotal').textContent;
+                document.getElementById('paymentPlanName').textContent = "Заказ CloudPlay";
+                document.getElementById('paymentAmount').textContent = totalPrice;
+                document.querySelector('.payment-submit').textContent = `Оплатить ${totalPrice} руб.`;
+
+                // Показываем модалку ЮКассы
+                paymentModal.style.display = "block";
+            });
+
+            
+                const expiryInput = document.querySelector('.card-input input.card-expiry');
+
+                    
+
+        </script>
+       

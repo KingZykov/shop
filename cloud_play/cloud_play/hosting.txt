@@ -1,0 +1,58 @@
+ninazyq7_cloudpl
+qkotaKv2uQ
+
+
+FTP
+
+
+
+Сервер:
+
+ninazyq7.beget.tech
+
+Логин:
+
+ninazyq7
+
+Пароль:
+
+656JblTfChTD
+
+ssh localhost -p222
+
+
+https://proproprogs.ru/django/nachinaem-razvertyvanie-django-sayta-na-hostinge
+
+
+wget https://www.python.org/ftp/python/3.13.3/Python-3.13.3.tgz
+
+tar -xf Python-3.13.3.tgz && cd Python-3.13.3
+
+./configure --prefix=$HOME/.local LDFLAGS="-L/usr/local/lib"
+
+~/.local/bin/python3.13 –V
+
+
+tar -xvzf Python-3.13.3.tgz && cd Python-3.13.3
+
+
+
+~/.local/bin/python3.13 -m virtualenv venv
+
+
+source venv/bin/activate
+
+deactivate
+
+
+~/.local/bin/pip3.13 install virtualenv
+~/.local/bin/python3.13 -m virtualenv venv
+
+pip install django==5.1.7
+
+django-admin.py startproject cloudplay
+
+
+python3.13 -c "import django; print(django.get_version()); print(django.__file__)"
+
+touch restart.txt

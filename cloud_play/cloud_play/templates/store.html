@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudPlay - Облачный гейминг нового поколения</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="{% static 'images/logo3.png'%}">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CWYBT6ND3C"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CWYBT6ND3C');
+    </script>
+</head>
+<body>
+    
+    <header>
+        <div class="logo">
+            <img src="{% static 'images/logo3.png' %}" alt="CloudPlay Logo">
+            <h1>CloudPlay</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Возможности</a></li>
+                <li><a href="{% url 'home' %}">Тарифы</a></li>
+                <li><a href="{% url 'store' %}">Магазин ключей</a></li>
+                <li><a href="{% url 'home' %}">Галерея</a></li>
+                <li><a href="{% url 'home' %}">Отзывы</a></li>
+                <li><a href="{% url 'home' %}">Контакты</a></li>
+
+            {% if user.is_authenticated %}
+                <li><a id="profileBtn" >Личный кабинет</a> </li>
+            {% endif %}
+            {% if user.is_authenticated and user.role == 'admin' %}
+                <li><a href="{% url 'monitoring_users' %}">Мониторинг</a></li> 
+            {% endif %}          
+            </ul>
+        </nav>
+
+        <div class="cart-button-container">
+            <button id="cartBtn">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cartCounter">0</span>
+            </button>
+        </div>
+
+        <div class="auth-buttons">
+
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Выйти</button>
+            </form>
+        {% else %}
+            <button id="loginBtn">Вход</button>
+        {% endif %}
+            
+        </div>
+        
+    </header>
+    {% block content %}
+    <!-- сюда вставляется содержимое из дочерних шаблонов -->
+    {% endblock %}
+
+    <section class="store" id="store">
+        <h2 class="section-title">Магазин ключей</h2>
+        <div class="store-grid">
+            <!-- Существующие игры -->
+            <div class="game-card">
+                <img src="{% static 'images/AssassinsCreedValhala.png' %}">
+                <h3 id="gametitle">Assassin's Creed Valhalla</h3>
+                <p class="game-description">Эпическая приключенческая игра викингов от Ubisoft</p>
+                <div class="game-price">2499.99 руб.</div>
+                <button class="add-to-cart" data-id="1" data-name="Assassin's Creed Valhalla" data-price="2499.99">В корзину</button>
+            </div>
+            <div class="game-card">
+                <img src="{% static 'images/ResidentEvilVIII.jpg' %}" alt="Resident Evil Village">
+                <h3 id="gametitle">Resident Evil Village</h3>
+                <p class="game-description">Ужасающий survival-horror от Capcom</p>
+                <div class="game-price">1799.99 руб.</div>
+                <button class="add-to-cart" data-id="2" data-name="Resident Evil Village" data-price="1799.99">В корзину</button>
+            </div>
+            <div class="game-card">
+                <img src="{% static 'images/PUBG.jpg' %}" alt="PUBG">
+                <h3 id="gametitle">PUBG</h3>
+                <p class="game-description">Король battle royale жанра с реалистичным геймплеем</p>
+                <div class="game-price">1299.99 руб.</div>
+                <button class="add-to-cart" data-id="3" data-name="PUBG" data-price="1299.99">В корзину</button>
+            </div>
+            <div class="game-card">
+                <img src="{% static 'images/Witcher3.jpg' %}" alt="The Witcher 3">
+                <h3 id="gametitle">The Witcher 3</h3>
+                <p class="game-description">Лучшая RPG всех времен с огромным открытым миром</p>
+                <div class="game-price">1499.99 руб.</div>
+                <button class="add-to-cart" data-id="4" data-name="The Witcher 3" data-price="1499.99">В корзину</button>
+            </div>
+
+            <!-- Новые игры -->
+            <div class="game-card">
+                <img src="{% static 'images/CyberPunk2077.jpg' %}" alt="Cyberpunk 2077">
+                <h3 id="gametitle">Cyberpunk 2077</h3>
+                <p class="game-description">Футуристический экшен-RPG от CD Projekt RED</p>
+                <div class="game-price">2499.99 руб.</div>
+                <button class="add-to-cart" data-id="5" data-name="Cyberpunk 2077" data-price="2499.99">В корзину</button>
+            </div>
+            <div class="game-card">
+                <img src="{% static 'images/EldenRing.jpg' %}" alt="Elden Ring">
+                <h3 id="gametitle">Elden Ring</h3>
+                <p class="game-description">Мир фантазий от создателей Dark Souls</p>
+                <div class="game-price">2999.99 руб.</div>
+                <button class="add-to-cart" data-id="6" data-name="Elden Ring" data-price="2999.99">В корзину</button>
+            </div>
+            <div class="game-card">
+                <img src="{% static 'images/HogwartsLegacy.jpg' %}" alt="Hogwarts Legacy">
+                <h3 id="gametitle">Hogwarts Legacy</h3>
+                <p class="game-description">RPG во вселенной Гарри Поттера</p>
+                <div class="game-price">1999.99 руб.</div>
+                <button class="add-to-cart" data-id="7" data-name="Hogwarts Legacy" data-price="1999.99">В корзину</button>
+            </div>
+            <div class="game-card">
+                <img src="{% static 'images/GTAV.jpg' %}" alt="Grand Theft Auto V">
+                <h3 id="gametitle">Grand Theft Auto V</h3>
+                <p class="game-description">Открытый мир преступного эпоса от Rockstar Games</p>
+                <div class="game-price">1299.99 руб.</div>
+                <button class="add-to-cart" data-id="8" data-name="Grand Theft Auto V" data-price="1299.99">В корзину</button>
+            </div>
+            <div class="game-card">
+                <img src="{% static 'images/HaloInfinite.jpg' %}" alt="Halo Infinite">
+                <h3>Halo Infinite</h3>
+                <p class="game-description">Шестая основная часть культовой серии FPS от 343 Industries</p>
+                <div class="game-price">3.599.99 руб.</div>
+                <button class="add-to-cart" data-id="9" data-name="Halo Infinite" data-price="0.00">В корзину</button>
+            </div>
+            <div class="game-card">
+                <img src="{% static 'images/AtomicHeart.jpg' %}" alt="Atomic Heart">
+                <h3>Atomic Heart</h3>
+                <p class="game-description">Атмосферный шутер с элементами RPG от Mundfish</p>
+                <div class="game-price">2399.99 руб.</div>
+                <button class="add-to-cart" data-id="10" data-name="Atomic Heart" data-price="2399.99">В корзину</button>
+
+
+        </div>
+    </section>
+
+    
+
+    
+    <footer>
+        <ul class="footer-links">
+            <li><a href="{% url 'privacy_policy' %}">Политика конфиденциальности</a></li>
+            <li><a href="#">Условия использования</a></li>
+            <li><a href="#">Частые вопросы</a></li>
+            <li><a href="#">О нас</a></li>
+            <li><a href="#">Вакансии</a></li>
+        </ul>
+        <p class="copyright">© 2025 CloudPlay. Все права защищены.</p>
+    </footer>
+
+    {% include 'modal.html' %}

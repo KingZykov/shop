@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudPlay - Облачный гейминг нового поколения</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="{% static 'images/logo3.png'%}">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CWYBT6ND3C"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CWYBT6ND3C');
+    </script>
+</head>
+<body>
+    
+    <header>
+        <div class="logo">
+            <img src="{% static 'images/logo3.png' %}" alt="CloudPlay Logo">
+            <h1>CloudPlay</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#features">Возможности</a></li>
+                <li><a href="#pricing">Тарифы</a></li>
+                <li><a href="{% url 'store' %}">Магазин ключей</a></li>
+                <li><a href="#gallery">Галерея</a></li>
+                <li><a href="#testimonials">Отзывы</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            {% if user.is_authenticated %}
+                <li><a id="profileBtn" >Личный кабинет</a> </li>
+            {% endif %}
+            {% if user.is_authenticated and user.role == 'admin' %}
+                <li><a href="{% url 'monitoring_users' %}">Мониторинг</a></li> 
+            {% endif %}  
+            </ul>
+        </nav>
+            {% if user.is_authenticated %}
+        <div class="cart-button-container">
+            <button id="cartBtn">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cartCounter">0</span>
+            </button>
+        </div>
+            {% endif %}
+        <div class="auth-buttons">
+
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Выйти</button>
+            </form>
+        {% else %}
+            <button id="loginBtn">Вход</button>
+        {% endif %}
+            
+        </div>
+        
+    </header>
+    {% block content %}
+    <!-- сюда вставляется содержимое из дочерних шаблонов -->
+    {% endblock %}
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Играйте в любые игры на любых устройствах</h2>
+            <p>CloudPlay предоставляет доступ к тысячам игр AAA-класса без необходимости в мощном железе. Просто подключитесь и играйте! Откройте для себя игры без задержек и ограничений, играя на любом устройстве с подключением к интернету. Присоединяйтесь к нам и начните свой геймерский путь!</p>
+           {% if not user.is_authenticated %}
+            <button class="cta-button">Начать бесплатно</button>
+           {% endif %}
+        </div>
+    </section>
+    
+    <section class="features" id="features">
+        <h2 class="section-title">Наши возможности</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h3>Мгновенный доступ</h3>
+                <p>Начните играть в любую игу моментально без скачивания и установки. Все игры уже готовы к запуску на наших серверах.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <h3>Огромная библиотека</h3>
+                <p>Более 1000 игр различных жанров - от инди-хитов до блокбастеров AAA-класса. Новые игры добавляются каждую неделю.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Играйте где угодно</h3>
+                <p>Доступ к играм с любого устройства - ПК, Mac, смартфон, планшет или Smart TV. Ваш прогресс синхронизируется между устройствами.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-cloud"></i>
+                </div>
+                <h3>Мощные серверы</h3>
+                <p>Наши серверы с топовым железом обеспечивают плавный геймплей с разрешением до 4K и 60 FPS без лагов и подгрузок.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Мультиплеер</h3>
+                <p>Играйте с друзьями в многопользовательские игры без ограничений. Наши серверы оптимизированы для онлайн-игр.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-child"></i>
+                </div>
+                <h3>Семейный доступ</h3>
+                <p>Создавайте семейные аккаунты и делитесь играми с близкими. Отдельные профили для детей с родительским контролем.</p>
+            </div>
+        </div>
+    </section>
+  
+    <section class="pricing" id="pricing">
+        <h2 class="section-title">Наши тарифы</h2>
+        {% if not user.is_authenticated %}
+        <h2 class="section-title">(Войдите в систему для покупки)</h2>
+        {% endif %}
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Базовый</h3>
+                <div class="price">599.99 <span> руб./месяц</span></div>
+                <ul class="pricing-features">
+                    <li>Доступ к 500+ играм</li>
+                    <li>1080p / 60 FPS</li>
+                    <li>10 часов игры в месяц</li>
+                    <li>1 одновременное устройство</li>
+                    <li>Без мультиплеера</li>
+                </ul>
+            {% if user.is_authenticated %}
+                <button class="pricing-button">Выбрать тариф</button>
+            {% endif %}
+            </div>
+            <div class="pricing-card popular">
+                <div class="popular-badge">Популярный</div>
+                <h3>Продвинутый</h3>
+                <div class="price">799.99 <span> руб./месяц</span></div>
+                <ul class="pricing-features">
+                    <li>Доступ к 800+ играм</li>
+                    <li>1440p / 60 FPS</li>
+                    <li>40 часов игры в месяц</li>
+                    <li>2 одновременных устройства</li>
+                    <li>Мультиплеер доступен</li>
+                </ul>
+                {% if user.is_authenticated %}
+                <button class="pricing-button">Выбрать тариф</button>
+                {% endif %}
+            </div>
+            <div class="pricing-card">
+                <h3>Премиум</h3>
+                <div class="price">1299.99 <span> руб./месяц</span></div>
+                <ul class="pricing-features">
+                    <li>Доступ ко всем играм (1000+)</li>
+                    <li>4K / 120 FPS</li>
+                    <li>Неограниченное время игры</li>
+                    <li>4 одновременных устройства</li>
+                    <li>Приоритетный доступ к серверам</li>
+             {% comment %}        <li>Ранний доступ к новым играм</li> {% endcomment %}
+                </ul>
+                {% if user.is_authenticated %}
+                <button class="pricing-button">Выбрать тариф</button>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+
+
+    
+    <section class="gallery" id="gallery">
+        <h2 class="section-title">Галерея</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="{% static 'images/photo-1542751371-adc38448a05e.avif' %}" alt="Игровой процесс">
+                <div class="gallery-caption">Играйте в любые игры без ограничений</div>
+            </div>
+            <div class="gallery-item">
+                <img src="{% static 'images/photo-1493711662062-fa541adb3fc8.avif' %}" alt="Мультиплеер">
+                <div class="gallery-caption">Играйте с друзьями по всему миру</div>
+            </div>
+            <div class="gallery-item">
+                <img src="{% static 'images/photo-1551103782-8ab07afd45c1.avif' %}" alt="Мобильный доступ">
+                <div class="gallery-caption">Доступ с любого устройства</div>
+            </div>
+            <div class="gallery-item">
+                <img src="{% static 'images/photo-1546443046-ed1ce6ffd1ab.avif' %}" alt="Высокое качество">
+                <div class="gallery-caption">Потрясающая графика 4K</div>
+            </div>
+            <div class="gallery-item">
+                <img src="{% static 'images/photo-1511512578047-dfb367046420.avif' %}" alt="Игровая библиотека">
+                <div class="gallery-caption">Огромная библиотека игр</div>
+            </div>
+            <div class="gallery-item">
+                <img src="{% static 'images/photo-1585771724684-38269d6639fd.avif' %}" alt="Семейный доступ">
+                <div class="gallery-caption">Семейные аккаунты</div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="testimonials" id="testimonials">
+        <h2 class="section-title">Отзывы наших пользователей</h2>
+        <div class="testimonial-slider">
+            <div class="testimonial">
+                <p class="testimonial-text">"CloudPlay полностью изменил мое представление о гейминге. Теперь я могу играть в самые новые игры на своем старом ноутбуке без каких-либо проблем. Качество просто потрясающее!"</p>
+                <p class="testimonial-author">- Алексей Петров</p>
+            </div>
+            <div class="testimonial">
+                <p class="testimonial-text">"Как мама двоих детей, я ценю возможность создать отдельные аккаунты с родительским контролем. Дети в восторге от огромного выбора игр, а я спокойна за контент, который они видят."</p>
+                <p class="testimonial-author">- Елена Смирнова</p>
+            </div>
+            <div class="testimonial">
+                <p class="testimonial-text">"Премиум-подписка полностью оправдывает свою цену. 4K/120FPS на телевизоре - это нечто! Никаких лагов, все работает идеально. Лучший сервис облачного гейминга на рынке."</p>
+                <p class="testimonial-author">- Дмитрий Иванов</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="contact" id="contact">
+        <h2 class="section-title">Свяжитесь с нами</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Контакты</h3>
+                <ul class="contact-details">
+                    <li><i class="fas fa-map-marker-alt"></i> Новосибирск, ул. Серафимовича, 20</li>
+                    <li><i class="fas fa-phone"></i> +7 (961) 724-50-26</li>
+                    <li><i class="fas fa-envelope"></i> info@cloudplay.ru</li>
+                    <li><i class="fas fa-clock"></i> Поддержка: 24/7</li>
+                </ul>
+                <h3 style="margin-top: 30px;">Мы в соцсетях</h3>
+                <div class="social-links">
+                    <a href="https://vk.com/club230537481"><i class="fab fa-vk"></i></a>
+                    <a href="https://t.me/CloudPlay_NSK"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                    <a href="#"><i class="fab fa-odnoklassniki"></i></a>
+                </div>
+            </div>
+            <div class="contact-form">
+                <form id="feedbackForm">
+                    <input type="text" placeholder="Ваше имя" required>
+                    <input type="email" placeholder="Ваш email" required>
+                    <input type="text" placeholder="Тема">
+                    <textarea placeholder="Ваше сообщение" required></textarea>
+                    <button type="submit">Отправить сообщение</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <ul class="footer-links">
+            <li><a href="{% url 'privacy_policy' %}">Политика конфиденциальности</a></li>
+            <li><a href="#">Условия использования</a></li>
+            <li><a href="#">Частые вопросы</a></li>
+            <li><a href="#">О нас</a></li>
+            <li><a href="#">Вакансии</a></li>
+        </ul>
+        <p class="copyright">© 2025 CloudPlay. Все права защищены.</p>
+    </footer>
+
+    {% include 'modal.html' %}
+
+
+ 
